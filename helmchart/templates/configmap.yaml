@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.cmname }}
+data:
+  BACKEND_URL: "http://{{ .Values.backendlabel }}.{{ .Values.namespace }}.svc.cluster.local:5000"
+  ENV: "{{ .Values.environement }}"

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.frontendlabel }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.frontendlabel }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.frontendlabel }}
+    spec:
+      containers:
+      - name: {{ .Values.frontendlabel }}
+        image: nunoloupy/{{ .Values.frontendlabel }}:latest
+        envFrom:
+          - configMapRef:
+              name: {{ .Values.cmname }}
+        ports:
+          - containerPort: 80
+        resources:
+          limits:
+            cpu: 200m
+            memory: 64Mi
+          requests:
+            cpu: 50m
+            memory: 32Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+status: {}

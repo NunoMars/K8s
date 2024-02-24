@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backendlabel }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.backendlabel }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backendlabel }}
+    spec:
+      volumes:
+        - name: {{ .Values.pvcname }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvcname }}
+      containers:
+      - name: {{ .Values.backendlabel }}
+        image: nunoloupy/{{ .Values.backendlabel }}:latest
+        ports:
+          - containerPort: 5000
+        volumeMounts:
+          - name: {{ .Values.pvcname }}
+            mountPath: /app/data
+        resources: 
+          requests:
+            cpu: 50m
+            memory: 32Mi
+          limits:
+            cpu: 200m
+            memory: 64Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+status: {}
+            

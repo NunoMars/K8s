@@ -1,0 +1,35 @@
+name: Build and push Docker images
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  build-and-push:
+    env:
+        ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'prod' || 'dev' }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Build Docker image for backend
+      run: docker build -t nunoloupy/nuno-pontoise-backend-last-${{ env.ENVIRONMENT }}:latest ./app/backend
+      
+
+    - name: Build Docker image for frontend
+      run: docker build -t nunoloupy/nuno-frontend-last-${{ env.ENVIRONMENT }}:latest ./app/frontend
+
+
+    - name: Log into Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Push Docker image for backend to Docker Hub
+      run: docker push nunoloupy/nuno-pontoise-backend-last-${{ env.ENVIRONMENT }}:latest
+
+    - name: Push Docker image for frontend to Docker Hub
+      run: docker push nunoloupy/nuno-frontend-last-${{ env.ENVIRONMENT }}:latest
+
+

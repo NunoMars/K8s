@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.projname }}
+  namespace: {{ .Values.namespace }}
+spec:
+  description: {{ .Values.appname }}
+  sourceRepos:
+  - https://github.com/O-clock-Hati/challenge-s15-e08-NunoMars.git
+  destinations:
+  - name: in-cluster
+    namespace: {{ .Values.namespace }}
+    server: https://kubernetes.default.svc

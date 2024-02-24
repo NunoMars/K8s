@@ -1,0 +1,9 @@
+appname: "final-app-nuno-dev"
+frontendlabel: "nuno-frontend-last-dev"
+backendlabel: "nuno-pontoise-backend-last-dev"
+replicas: 1
+namespace: "nuno-dev"
+cmname: "nuno-cm-dev"
+environement: "dev"
+projname: "final-app-multidev"
+pvcname: "nuno-pvc-dev"

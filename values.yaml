@@ -1,0 +1,9 @@
+cmname: "nuno-cm-prod"
+appname: "final-app-nuno-prod"
+frontendlabel: "nuno-frontend-prod"
+backendlabel: "nuno-backend-prod"
+replicas: 1
+namespace: "nuno"
+environement: "prod"
+projname: "final-app-multidev"
+pvcname: "nuno-pvc-prod"

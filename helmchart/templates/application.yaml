@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.appname }}
+  namespace: {{ .Values.namespace }}
+spec:
+  project: {{ .Values.projname }}
+  source:
+    repoURL: git@github.com:O-clock-Hati/challenge-s15-e08-NunoMars.git
+    path: helmchart
+    targetRevision: {{ .Values.environement }}
+  destination:
+    namespace: {{ .Values.namespace }}
+    server: https://kubernetes.default.svc
